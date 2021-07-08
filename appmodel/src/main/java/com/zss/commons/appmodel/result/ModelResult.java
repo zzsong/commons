@@ -1,4 +1,4 @@
-package com.commons.appmodel.result;
+package com.zss.commons.appmodel.result;
 
 public class ModelResult<T> extends BaseResult {
 

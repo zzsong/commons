@@ -1,4 +1,4 @@
-package com.commons.appmodel.result;
+package com.zss.commons.appmodel.result;
 
 import java.io.Serializable;
 import java.util.List;

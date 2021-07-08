@@ -1,4 +1,4 @@
-package com.commons.appmodel.domain;
+package com.zss.commons.appmodel.domain;
 
 
 import java.io.Serializable;
