@@ -82,10 +82,4 @@ public class LocalDateUtils {
         return transferYYYYMMDD(transferLocalDate(tradeDate).with(TemporalAdjusters.firstDayOfNextMonth()));
     }
 
-    public static void main(String[] args) {
-        System.out.println(transferYYYYMMDD(transferLocalDate(20210625).with(TemporalAdjusters.firstInMonth(DayOfWeek.MONDAY))));
-        System.out.println(transferYYYYMMDD(transferLocalDate(20210605).with(TemporalAdjusters.firstInMonth(DayOfWeek.MONDAY))));
-        System.out.println(transferYYYYMMDD(transferLocalDate(20210628).with(TemporalAdjusters.firstInMonth(DayOfWeek.MONDAY))));
-
-    }
 }
