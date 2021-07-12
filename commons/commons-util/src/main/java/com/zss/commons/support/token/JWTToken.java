@@ -8,11 +8,11 @@ import org.apache.commons.lang3.StringUtils;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public final class JWTToken {
-
-    private final String TEMP = "temp";
 
     private JWTConfig jwtConfig;
 
@@ -33,11 +33,10 @@ public final class JWTToken {
         LocalDateTime dateTime = LocalDateTime.now().plusSeconds(jwtConfig.getExpireSecond());
         Date expireDate = Date.from(dateTime.toInstant(ZoneOffset.UTC));
         String uuid = UUID.randomUUID().toString();
-        System.out.println("build uuid:\t"+uuid);
-        String id = MD5.md5Encode(tokenOption.getTid());
+        String id = MD5.md5Encode(tokenOption.getTid()+uuid);
         // 登陆成功生成JWT
         String token = Jwts.builder()
-//                .setHeader(Jwts.jwsHeader().setKeyId(uuid).setType(""))
+                .setAudience(uuid)
                 // 放入核心数据进行加密验证
                 .setId(id)
                 .setSubject(MD5.md5Encode(tokenOption.getSubject()))
@@ -61,12 +60,6 @@ public final class JWTToken {
         Jws<Claims> jws = Jwts.parser()
                 .setSigningKey(jwtConfig.getSecret())
                 .parseClaimsJws(token);
-
-        System.out.println("type:\t"+jws.getHeader().getType());
-        System.out.println("algorithm:\t"+jws.getHeader().getAlgorithm());
-        System.out.println("contentType:\t"+jws.getHeader().getContentType());
-        String uuid = jws.getHeader().getKeyId();
-        System.out.println("uuid==\t"+uuid);
         // 解析JWT
         Claims claims = jws.getBody();
         Date expireDate = claims.getExpiration();
@@ -74,10 +67,11 @@ public final class JWTToken {
             return false;
         }
 
+        String uuid = claims.getAudience();
         // 获取
         String subject = claims.getSubject();
         String tid=claims.getId();
-        if (MD5.md5Encode(option.getTid()).equals(tid)
+        if (MD5.md5Encode(option.getTid()+uuid).equals(tid)
                 && MD5.md5Encode(option.getSubject()).equals(subject)){
             return true;
         }
