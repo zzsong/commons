@@ -27,7 +27,7 @@ public class FtpClientUtils {
             // 设置中文编码集，防止中文乱码
             ftpClient.setControlEncoding("UTF-8");
             //Host attempting data connection x.x.x.x is not the same as server y.y.y.y
-//            ftpClient.setRemoteVerificationEnabled(false);
+            ftpClient.setRemoteVerificationEnabled(false);
             // 设置PassiveMode传输
             ftpClient.enterLocalPassiveMode();
             //设置二进制传输，使用BINARY_FILE_TYPE，ASC容易造成文件损坏
