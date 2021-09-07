@@ -1,15 +1,12 @@
 package com.zss.commons.support.token;
 
-import com.alibaba.fastjson.JSON;
-import com.zss.commons.support.codec.MD5;
+import com.zss.commons.support.codec.DigestHexUtils;
 import io.jsonwebtoken.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 public final class JWTToken {
@@ -33,13 +30,13 @@ public final class JWTToken {
         LocalDateTime dateTime = LocalDateTime.now().plusSeconds(jwtConfig.getExpireSecond());
         Date expireDate = Date.from(dateTime.toInstant(ZoneOffset.UTC));
         String uuid = UUID.randomUUID().toString();
-        String id = MD5.md5Encode(tokenOption.getTid()+uuid);
+        String id = DigestHexUtils.encodeHex(tokenOption.getTid()+uuid);
         // 登陆成功生成JWT
         String token = Jwts.builder()
                 .setAudience(uuid)
                 // 放入核心数据进行加密验证
                 .setId(id)
-                .setSubject(MD5.md5Encode(tokenOption.getSubject()))
+                .setSubject(DigestHexUtils.encodeHex(tokenOption.getSubject()))
                 // 签发时间
                 .setIssuedAt(new Date())
                 // 签发者
@@ -71,8 +68,8 @@ public final class JWTToken {
         // 获取
         String subject = claims.getSubject();
         String tid=claims.getId();
-        if (MD5.md5Encode(option.getTid()+uuid).equals(tid)
-                && MD5.md5Encode(option.getSubject()).equals(subject)){
+        if (DigestHexUtils.encodeHex(option.getTid()+uuid).equals(tid)
+                && DigestHexUtils.encodeHex(option.getSubject()).equals(subject)){
             return true;
         }
         return false;
