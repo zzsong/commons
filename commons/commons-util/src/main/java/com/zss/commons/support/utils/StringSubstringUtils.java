@@ -41,7 +41,7 @@ public class StringSubstringUtils {
         if (start >= end){
             return new byte[0];
         }
-        int length = end - start;
+        int length = Math.min(src.length,end - start);
         byte[] destBytes = new byte[length];
         System.arraycopy(src,0, destBytes,0,length);
         return destBytes;
