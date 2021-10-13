@@ -19,6 +19,7 @@
         <module>appmodel</module>
         <module>commons-util</module>
 		<module>web-model</module>
+        <module>commons-upload</module>
     </modules>
 
 </project>
